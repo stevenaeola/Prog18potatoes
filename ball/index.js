@@ -6,6 +6,7 @@ function setup(){
 }
 
 function draw(){
+    background(255);
     b.draw();
 }
 
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
     }
     
     cc.addEventListener("change", changeColour);
-    r.addEventListener("radius", changeRadius);
+    r.addEventListener("input", changeRadius);
 
     var cf = document.getElementById("colour_form");
 
