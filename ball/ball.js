@@ -9,6 +9,10 @@ class Ball{
     setColour(colour){
 	this.colour = colour;
     }
+
+    setRadius(radius){
+	this.radius = radius;
+    }
     
     draw(){
 	fill(this.colour);

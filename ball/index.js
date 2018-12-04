@@ -16,7 +16,14 @@ document.addEventListener("DOMContentLoaded", function(){
 	b.setColour(colour);
     }
     
+    var r = document.getElementById("radius");
+    function changeRadius(event){
+	let radius = document.getElementById("radius").value;
+	b.setRadius(radius);
+    }
+    
     cc.addEventListener("change", changeColour);
+    r.addEventListener("radius", changeRadius);
 
     var cf = document.getElementById("colour_form");
 
