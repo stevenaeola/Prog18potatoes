@@ -4,10 +4,15 @@ const app = express();
 app.use(express.static('client'));
 
 
-let instruments = [ 'piano', 'concertina', 'double bass'];
+let potatoes = [
+  "Curly fries",
+  "Duchess",
+  "Wedges",
+  "Dauphinoise"
+];
  
 app.get('/list', function (req, resp){
-    resp.send(instruments);
+    resp.send(potatoes);
 });
  
 
