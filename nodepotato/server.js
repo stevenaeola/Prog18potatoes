@@ -14,6 +14,10 @@ let potatoes = [
 app.get('/list', function (req, resp){
     resp.send(potatoes);
 });
- 
+
+app.post('/add', function (req, resp){
+  potatoes.push("jacket");
+  resp.send("Fine that worked");
+});
 
 app.listen(8090)
