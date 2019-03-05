@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
  
 app.use(express.static('client'));
-
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
 
 let potatoes = [
   "Curly fries",
@@ -16,7 +17,9 @@ app.get('/list', function (req, resp){
 });
 
 app.post('/add', function (req, resp){
-  potatoes.push("jacket");
+  const pot = req.body.potato_type;
+  console.log(req.body);
+  potatoes.push(pot);
   resp.send("Fine that worked");
 });
 
