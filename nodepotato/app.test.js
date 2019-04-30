@@ -4,23 +4,10 @@
 const request = require('supertest');
 const app = require('./app');
 
-function checkDeliaDerbyshire(res)
-{
+// mock the login so that it always says we are logged in
+jest.mock('./login', () => { return jest.fn(() => true)});
 
-    const jContent = res.body;
-    if(typeof jContent !== 'object'){
-	throw new Error('not an object');
-    }
-
-    if(jContent['surname'] !== 'Derbyshire'){
-	console.log(jContent);
-	throw new Error('surname should be Derbyshire');
-    }
-
-    if(jContent['forename'] !== 'Delia'){
-	throw new Error('forename should be Delia');
-    }
-}
+const login = require('./login');
 
 // thanks to Nico Tejera at https://stackoverflow.com/questions/1714786/query-string-encoding-of-a-javascript-object
 // returns something like "access_token=concertina&username=bobthebuilder"
@@ -47,40 +34,16 @@ describe('Test the people service', () => {
 	    .expect(/Curly/);
     });
 
-    test('GET /people/doctorwhocomposer succeeds', () => {
+    test('POST /add works', () => {
+        // create a randomly named potato type
+        let potato_type = 'potato_' + Math.floor(Math.random(1000000000));
+	const params = {potato_type: potato_type,
+			access_token: 'whatever'};
+        // add it to the list
         return request(app)
-	    .get('/people/doctorwhocomposer')
-	    .expect(200);
+	    .post('/add')
+	    .send(serialise(params)).expect(200);
     });
 
-    test('GET /people/doctorwhocomposer returns JSON', () => {
-        return request(app)
-	    .get('/people/doctorwhocomposer')
-	    .expect('Content-type', /json/);
-    });
-
-    test('GET /people/doctorwhocomposer includes name details', () => {
-        return request(app)
-	    .get('/people/doctorwhocomposer')
-	    .expect(checkDeliaDerbyshire);
-    });
-
-
-    test('POST /people needs access_token', () => {
-        return request(app)
-	    .post('/people')
-	    .expect(403);
-    });
-
-    test('POST /people cannot replicate', () => {
-	const params = {access_token: 'concertina',
-			username: 'doctorwhocomposer',
-			forename: 'Bob',
-			surname: 'Builder'};
-        return request(app)
-	    .post('/people')
-	    .send(serialise(params))
-	    .expect(400);
-    });
 
 });
